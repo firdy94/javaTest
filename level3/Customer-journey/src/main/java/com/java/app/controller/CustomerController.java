@@ -58,6 +58,22 @@ package com.java.app.controller;
 
 import java.util.Optional;
 
+import javax.validation.constraints.NotBlank;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.java.app.dao.Customer;
+import com.java.app.dao.CustomerRepoService;
+
 @RestController
 @RequestMapping(path= "/1/customer", produces=MediaType.APPLICATION_JSON_VALUE)
 @Validated
