@@ -53,7 +53,6 @@ public class CustomerRepoService {
 	public Optional<Customer> addOrUpdateCustomer(Customer customer) {
 		if(customer.getId()!=null) {
 			if(mCustomerRepository.existsById(customer.getId())) {
-				mCustomerRepository.deleteById(customer.getId());
 				return Optional.ofNullable(
 						mCustomerRepository.save(customer));
 			}
@@ -61,11 +60,22 @@ public class CustomerRepoService {
 //			Customer customerWithoutId = new Customer(customer.getFirstName(), customer.getLastName());
 //			mCustomerRepository.save(customerWithoutId);
 		}
-		mCustomerRepository.save(customer);
-		return Optional.ofNullable(mCustomerRepository.save(customer));
+		System.out.println(customer.toString());
+		Customer customerWithoutId = new Customer(customer.getFirstName(), customer.getLastName());
+		System.out.println(customerWithoutId.toString());
+//		mCustomerRepository.save(customerWithoutId);
+		return Optional.ofNullable(mCustomerRepository.save(customerWithoutId));
 
 //		return Optional.ofNullable(customer);
 
+	}
+	
+	public boolean deleteCustomer(String id) {
+		if (mCustomerRepository.existsById(Long.parseLong(id))) {
+			mCustomerRepository.deleteById(Long.parseLong(id));
+			return true;
+		}
+		return false;
 	}
 }
 
