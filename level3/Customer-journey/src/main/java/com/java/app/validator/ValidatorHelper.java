@@ -40,7 +40,12 @@ public class ValidatorHelper{
 	
 	public boolean isCustomerExists(Customer customer, ConstraintValidatorContext cxt ) {
 		
-		
+		if (customer.getId()==null) {
+			logger.error("Id {} cannot be null", customer.getId().toString());
+			cxt.disableDefaultConstraintViolation();
+			cxt.buildConstraintViolationWithTemplate("Id %s is not available".formatted(customer.getId().toString())).addConstraintViolation();
+			return false;
+		}
 		
 		Optional<Customer> customerExisting = customerRepoSvc.getCustomerById(customer.getId().toString());
 		
@@ -54,17 +59,27 @@ public class ValidatorHelper{
 		
 	}
 	
-	public boolean isCustomerCorrect(Customer customer,  ConstraintValidatorContext cxt) {
-		
-		if ((customer.getFirstName()==null) || (customer.getLastName()==null)) {
-			logger.error("Name fields {} cannot be null", customer.getId().toString());
+	public boolean isCustomerValid(Customer customer,  ConstraintValidatorContext cxt) {
+		if(customer.getId()!=null) {
+			logger.error("Id field {} must be null", customer.getId().toString());
+			cxt.disableDefaultConstraintViolation();
+			cxt.buildConstraintViolationWithTemplate("Id %s is not accepted".formatted(customer.getId().toString())).addConstraintViolation();
+			return false;
+		}
+			
+		else if ((customer.getFirstName()==null) || (customer.getLastName()==null)) {
+			logger.error("Name fields firstName: {} and lastName: {} cannot be null", customer.getFirstName(), customer.getLastName());
 			cxt.disableDefaultConstraintViolation();
 			cxt.buildConstraintViolationWithTemplate("FirstName: %s, LastName: %s is not accepted".formatted(customer.getFirstName(),customer.getLastName())).addConstraintViolation();
-			return false;
-			
-			
+			return false;	
 		}
-		return false;
+		else if((customer.getFirstName().length()<3) || (customer.getLastName().length()<3)) {
+			logger.error("Name fields {} cannot be less than 3 characters", customer.getId().toString());
+			cxt.disableDefaultConstraintViolation();
+			cxt.buildConstraintViolationWithTemplate("FirstName: %s, LastName: %s is too short".formatted(customer.getFirstName(),customer.getLastName())).addConstraintViolation();
+			return false;
+		}
+		return true;
 	}
 	
 

@@ -1,4 +1,4 @@
-package com.java.app.controller;
+package com.java.app.errorresponse;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;

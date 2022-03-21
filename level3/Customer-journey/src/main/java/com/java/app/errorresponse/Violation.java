@@ -1,5 +1,5 @@
 
-package com.java.app.controller;
+package com.java.app.errorresponse;
 
 public class Violation {
 

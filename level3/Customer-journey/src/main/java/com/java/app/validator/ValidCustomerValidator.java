@@ -7,14 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.java.app.dao.entity.Customer;
 
-public class ValidCustomerValidator implements ConstraintValidator<ValidCustomer,Object>{
+public class ValidCustomerValidator implements ConstraintValidator<ValidCustomer,Customer>{
 	
 	@Autowired
 	private ValidatorHelper validatorHelper;
 	
 	@Override
-	public boolean isValid(Object value, ConstraintValidatorContext cxt) {
-		return validatorHelper.isCustomerCorrect((Customer) value, cxt);
+	public boolean isValid(Customer value, ConstraintValidatorContext cxt) {
+		return validatorHelper.isCustomerValid(value, cxt);
 	}
 	
 }

@@ -11,11 +11,11 @@ import javax.validation.Payload;
 
 @Documented
 @Constraint(validatedBy = ValidCustomerValidator.class)
-@Target({ElementType.METHOD, ElementType.FIELD, ElementType.PARAMETER, ElementType.CONSTRUCTOR})
+@Target({ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ValidCustomer{
 	
-	String message() default "id not available";
+	String message() default "Customer information not valid";
 	
 	Class<?>[] groups() default {};
 	

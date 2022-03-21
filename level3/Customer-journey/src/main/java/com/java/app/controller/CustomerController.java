@@ -67,9 +67,6 @@ public class CustomerController {
 		
 		Optional<Customer> customer = customerRepoSvc.addOrUpdateCustomer(pCustomer);
 		
-		if (customer.isEmpty()) {
-			return ResponseEntity.badRequest().build();
-		}
 		return ResponseEntity.ok(customer.get());
 	}
 	
@@ -82,9 +79,6 @@ public class CustomerController {
 		
 		Optional<Customer> customer = customerRepoSvc.addOrUpdateCustomer(pCustomer);
 		
-		if (customer.isEmpty()) {
-			return ResponseEntity.badRequest().build();
-		}
 		return ResponseEntity.ok(customer.get());
 	}
 	

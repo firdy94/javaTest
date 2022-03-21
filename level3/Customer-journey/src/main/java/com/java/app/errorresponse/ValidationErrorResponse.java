@@ -1,5 +1,5 @@
 
-package com.java.app.controller;
+package com.java.app.errorresponse;
 
 import java.util.ArrayList;
 import java.util.List;
