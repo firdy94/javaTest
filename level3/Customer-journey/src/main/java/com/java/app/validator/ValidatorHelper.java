@@ -30,7 +30,7 @@ public class ValidatorHelper{
 		if(customer.isEmpty()) {
 			logger.error("Id {} does not exist", id);
 			cxt.disableDefaultConstraintViolation();
-			cxt.buildConstraintViolationWithTemplate("Id %s is not available".formatted(id)).addConstraintViolation();
+			cxt.buildConstraintViolationWithTemplate("Id %s does not exist".formatted(id)).addConstraintViolation();
 			return false;
 		}
 		return true;
@@ -41,9 +41,9 @@ public class ValidatorHelper{
 	public boolean isCustomerExists(Customer customer, ConstraintValidatorContext cxt ) {
 		
 		if (customer.getId()==null) {
-			logger.error("Id {} cannot be null", customer.getId().toString());
+			logger.error("Id cannot be null");
 			cxt.disableDefaultConstraintViolation();
-			cxt.buildConstraintViolationWithTemplate("Id %s is not available".formatted(customer.getId().toString())).addConstraintViolation();
+			cxt.buildConstraintViolationWithTemplate("Id cannot be null").addConstraintViolation();
 			return false;
 		}
 		
@@ -52,7 +52,19 @@ public class ValidatorHelper{
 		if(customerExisting.isEmpty()) {
 			logger.error("Id {} does not exist", customer.getId().toString());
 			cxt.disableDefaultConstraintViolation();
-			cxt.buildConstraintViolationWithTemplate("Id %s is not available".formatted(customer.getId().toString())).addConstraintViolation();
+			cxt.buildConstraintViolationWithTemplate("Id %s does not exist".formatted(customer.getId().toString())).addConstraintViolation();
+			return false;
+		}
+		else if ((customer.getFirstName()==null) || (customer.getLastName()==null)) {
+			logger.error("Name fields cannot be null");
+			cxt.disableDefaultConstraintViolation();
+			cxt.buildConstraintViolationWithTemplate("Name fields not accepted").addConstraintViolation();
+			return false;	
+		}
+		else if((customer.getFirstName().length()<3) || (customer.getLastName().length()<3)) {
+			logger.error("Name fields firstName: {} and lastName: {} cannot be less than 3 characters", customer.getFirstName(), customer.getLastName());
+			cxt.disableDefaultConstraintViolation();
+			cxt.buildConstraintViolationWithTemplate("FirstName: %s, LastName: %s is too short".formatted(customer.getFirstName(),customer.getLastName())).addConstraintViolation();
 			return false;
 		}
 		return true;
@@ -66,15 +78,14 @@ public class ValidatorHelper{
 			cxt.buildConstraintViolationWithTemplate("Id %s is not accepted".formatted(customer.getId().toString())).addConstraintViolation();
 			return false;
 		}
-			
 		else if ((customer.getFirstName()==null) || (customer.getLastName()==null)) {
-			logger.error("Name fields firstName: {} and lastName: {} cannot be null", customer.getFirstName(), customer.getLastName());
+			logger.error("Name fields cannot be null");
 			cxt.disableDefaultConstraintViolation();
-			cxt.buildConstraintViolationWithTemplate("FirstName: %s, LastName: %s is not accepted".formatted(customer.getFirstName(),customer.getLastName())).addConstraintViolation();
+			cxt.buildConstraintViolationWithTemplate("Name fields not accepted").addConstraintViolation();
 			return false;	
 		}
 		else if((customer.getFirstName().length()<3) || (customer.getLastName().length()<3)) {
-			logger.error("Name fields {} cannot be less than 3 characters", customer.getId().toString());
+			logger.error("Name fields firstName: {} and lastName: {} cannot be less than 3 characters", customer.getFirstName(), customer.getLastName());
 			cxt.disableDefaultConstraintViolation();
 			cxt.buildConstraintViolationWithTemplate("FirstName: %s, LastName: %s is too short".formatted(customer.getFirstName(),customer.getLastName())).addConstraintViolation();
 			return false;

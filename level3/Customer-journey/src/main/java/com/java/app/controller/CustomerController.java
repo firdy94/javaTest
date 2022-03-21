@@ -51,40 +51,31 @@ public class CustomerController {
 	@GetMapping(value = "/{id}")
 	@ResponseBody
 	public ResponseEntity<Customer> getCustomer(@PathVariable("id") @NotBlank @IdExists String pId) {
-		
 		logger.info("Id entered>>>>>>>: {}",pId);		
-		
 		Optional<Customer> result = customerRepoSvc.getCustomerById(pId);
-		
 		return ResponseEntity.ok(result.get());
 	}
 
 	@PutMapping(value = "/")
 	@ResponseBody
 	public ResponseEntity<Customer> updateCustomer(@RequestBody @CustomerExists Customer pCustomer) {		
-		
-		logger.info("Customer updated >>>>>>>: {}",pCustomer.toString());
-		
 		Optional<Customer> customer = customerRepoSvc.addOrUpdateCustomer(pCustomer);
-		
+		logger.info("Customer updated >>>>>>>: {}",pCustomer.getId().toString());
 		return ResponseEntity.ok(customer.get());
 	}
 	
 	@PostMapping(value = "/")
 	@ResponseBody
-	public ResponseEntity<Customer> addCustomer(@RequestBody @ValidCustomer Customer pCustomer) {
-		
-		
-		logger.info("Customer added >>>>>>>: {}",pCustomer.toString());
-		
+	public ResponseEntity<Customer> addCustomer(@RequestBody @ValidCustomer Customer pCustomer) {		
 		Optional<Customer> customer = customerRepoSvc.addOrUpdateCustomer(pCustomer);
-		
+		logger.info("Customer added >>>>>>>: {}",pCustomer.getId().toString());
 		return ResponseEntity.ok(customer.get());
 	}
 	
 	@DeleteMapping(value="/{id}")
 	public ResponseEntity<String> deleteCustomer(@PathVariable("id") @NotBlank @IdExists String pId){
 		customerRepoSvc.deleteCustomer(pId);
+		logger.info("Customer added >>>>>>>: {}",pId);
 		return ResponseEntity.ok("Customer record deleted");
 	}
 

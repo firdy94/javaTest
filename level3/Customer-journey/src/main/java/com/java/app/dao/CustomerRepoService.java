@@ -10,8 +10,6 @@ import com.java.app.dao.entity.Customer;
 @Service
 public class CustomerRepoService {
 	
-
-
 	@Autowired
 	private CustomerRepository mCustomerRepository;
 	
@@ -20,11 +18,7 @@ public class CustomerRepoService {
 	}
 	
 	public Optional<Customer> addOrUpdateCustomer(Customer customer) {
-		if(customer.getId()!=null) {
-			return Optional.ofNullable(mCustomerRepository.save(customer));
-		}
-		Customer customerWithoutId = new Customer(customer.getFirstName(), customer.getLastName());
-		return Optional.ofNullable(mCustomerRepository.save(customerWithoutId));
+		return Optional.ofNullable(mCustomerRepository.save(customer));
 	}
 	
 	public void deleteCustomer(String id) {
