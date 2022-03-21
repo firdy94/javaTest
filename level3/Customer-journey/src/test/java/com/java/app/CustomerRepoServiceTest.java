@@ -17,7 +17,7 @@ import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TE
 
 
 
-import com.java.app.dao.Customer;
+import com.java.app.dao.entity.Customer;
 import com.java.app.dao.CustomerRepoService;
 
 @SpringBootTest(classes = AccessingDataJpaApplication.class)
@@ -77,8 +77,10 @@ class CustomerRepoServiceTest{
 	
 	@Test
 	void testDeleteCustomer(){
-		assertEquals(true, customerRepoSvc.deleteCustomer("1"));
-		assertEquals(false, customerRepoSvc.deleteCustomer("100"));
+		customerRepoSvc.deleteCustomer("1");
+		Optional<Customer> customer =customerRepoSvc.getCustomerById("1");
+		assertEquals(Optional.empty(), customer);
+		assertThrows(NullPointerException.class, ()->customerRepoSvc.deleteCustomer("100"));
 		assertThrows(IllegalArgumentException.class, ()-> customerRepoSvc.deleteCustomer(null));
 	}
  }

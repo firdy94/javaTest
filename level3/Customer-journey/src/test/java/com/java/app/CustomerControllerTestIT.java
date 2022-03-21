@@ -7,11 +7,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -20,10 +18,7 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.java.app.controller.CustomerController;
-import com.java.app.dao.Customer;
-import com.java.app.dao.CustomerRepoService;
-import com.java.app.dao.CustomerRepository;
+import com.java.app.dao.entity.Customer;
 
 import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TEST_METHOD;
 
@@ -50,19 +45,11 @@ class CustomerControllerTestIT {
     void contextLoads(ApplicationContext context) {
       assertNotNull(context);
     }
-//
-//    @Test
-//    public void testCustomer() throws Exception {
-//    	
-//    	Customer customer = new Customer("1", "John", "Kennedy");
-//    	String jsonResp = objMapper.writeValueAsString(customer);
-//    	testGetCustomerEndpoint("1", jsonResp);
-//    	}
     @Test
     public void testCustomer() throws Exception {
     	Customer customer = new Customer("1", "John", "Kennedy");
     	String customerString= objMapper.writeValueAsString(customer);
-    	testAddCustomerEndpoint("1", customerString);    	
+    	testGetCustomerEndpoint("1", customerString);    	
     	}
     @Test
     public void testAddCustomer() throws Exception {
