@@ -3,7 +3,6 @@ package com.java.app;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -26,8 +25,8 @@ import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TE
 
 @SpringBootTest
 @AutoConfigureMockMvc
-//@ContextConfiguration(classes = {AccessingDataJpaApplication.class,CustomerController.class, CustomerRepoService.class, CustomerRepository.class, Customer.class})
-//@WebMvcTest
+@Sql(scripts="classpath:schema.sql", executionPhase=BEFORE_TEST_METHOD)
+@Sql(scripts="classpath:data.sql", executionPhase=BEFORE_TEST_METHOD)
 class CustomerControllerTestIT {
     private final static String TEST_USER_ID = "user";
 
@@ -35,11 +34,6 @@ class CustomerControllerTestIT {
     private MockMvc mockMvc;
     
     ObjectMapper objMapper =new ObjectMapper();
-    
-    @BeforeEach
-    @Sql(scripts="classpath:schema.sql", executionPhase=BEFORE_TEST_METHOD)
-    @Sql(scripts="classpath:data.sql", executionPhase=BEFORE_TEST_METHOD)
-    void init(){}
     
     @Test
     void contextLoads(ApplicationContext context) {
@@ -129,7 +123,6 @@ class CustomerControllerTestIT {
         String resultStatus = result.getResponse().getContentAsString();
         assertNotNull(resultStatus);
         assertEquals(customer, resultStatus);
-    	
     }
     
     

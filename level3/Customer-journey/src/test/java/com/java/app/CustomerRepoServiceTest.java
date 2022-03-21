@@ -11,6 +11,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 
 import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TEST_METHOD;
 
@@ -21,8 +23,6 @@ import com.java.app.dao.entity.Customer;
 import com.java.app.dao.CustomerRepoService;
 
 @SpringBootTest(classes = AccessingDataJpaApplication.class)
-//@Sql(statements="INSERT INTO customers (firstName, lastName) VALUES('John', 'Kennedy')")
-//@SpringBootTest
 @Sql(scripts="classpath:schema.sql", executionPhase=BEFORE_TEST_METHOD)
 @Sql(scripts="classpath:data.sql", executionPhase=BEFORE_TEST_METHOD)
 class CustomerRepoServiceTest{
@@ -72,7 +72,7 @@ class CustomerRepoServiceTest{
 
 
 				
-		assertThrows(NullPointerException.class, ()-> customerRepoSvc.addOrUpdateCustomer(null));
+		assertThrows(InvalidDataAccessApiUsageException.class, ()-> customerRepoSvc.addOrUpdateCustomer(null));
 	}
 	
 	@Test
@@ -80,7 +80,7 @@ class CustomerRepoServiceTest{
 		customerRepoSvc.deleteCustomer("1");
 		Optional<Customer> customer =customerRepoSvc.getCustomerById("1");
 		assertEquals(Optional.empty(), customer);
-		assertThrows(NullPointerException.class, ()->customerRepoSvc.deleteCustomer("100"));
+		assertThrows(EmptyResultDataAccessException.class, ()->customerRepoSvc.deleteCustomer("100"));
 		assertThrows(IllegalArgumentException.class, ()-> customerRepoSvc.deleteCustomer(null));
 	}
  }
